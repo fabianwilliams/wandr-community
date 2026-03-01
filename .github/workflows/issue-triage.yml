@@ -1,106 +1,81 @@
-name: Issue Triage
+name: Claude Issue Triage
 
 on:
   issues:
     types: [opened]
-
-permissions:
-  issues: write
+  issue_comment:
+    types: [created]
 
 jobs:
-  triage:
+  claude-triage:
     runs-on: ubuntu-latest
+    timeout-minutes: 10
+    if: >-
+      github.event_name == 'issues' ||
+      (github.event_name == 'issue_comment' && !github.event.issue.pull_request && github.event.comment.user.type != 'Bot')
+    concurrency:
+      group: issue-triage-${{ github.event.issue.number }}
+      cancel-in-progress: true
+    permissions:
+      contents: read
+      issues: write
+
     steps:
-      - name: Acknowledge new issue
-        uses: actions/github-script@v7
+      - name: Checkout repository
+        uses: actions/checkout@v4
         with:
-          script: |
-            const issue = context.payload.issue;
-            const title = issue.title.toLowerCase();
-            const body = (issue.body || '').toLowerCase();
+          fetch-depth: 0
 
-            // Auto-label based on title prefix
-            const labels = [];
-
-            if (title.startsWith('[bug]')) {
-              labels.push('bug');
-              // Try to categorize the bug
-              if (body.includes('backend') || body.includes('ai ') || body.includes('server') || body.includes('timeout')) {
-                labels.push('backend-bug');
-              } else if (body.includes('map') || body.includes('ui') || body.includes('crash') || body.includes('screen')) {
-                labels.push('ios-bug');
-              }
-              if (body.includes('ai-generated') || body.includes('wrong location') || body.includes('suggestion')) {
-                labels.push('ai-response');
-              }
-            }
-
-            if (title.startsWith('[feature]')) {
-              labels.push('enhancement');
-            }
-
-            // Check severity
-            if (body.includes('critical - app crashes')) {
-              labels.push('priority-high');
-            }
-
-            // Add labels if any were determined
-            if (labels.length > 0) {
-              await github.rest.issues.addLabels({
-                owner: context.repo.owner,
-                repo: context.repo.repo,
-                issue_number: issue.number,
-                labels: labels
-              });
-            }
-
-            // Post triage acknowledgment
-            const isBug = title.startsWith('[bug]');
-            const isFeature = title.startsWith('[feature]');
-
-            let message = '';
-            if (isBug) {
-              message = `Thanks for reporting this bug! 🔍
-
-            **Triage Summary:**
-            - Issue has been automatically labeled and queued for review
-            - A team member will investigate within **48 hours**
-
-            **While you wait:**
-            - Make sure you've included your iPhone model, iOS version, and the trip query that triggered the issue
-            - If you can reproduce the bug consistently, additional details about the steps help us fix it faster
-
-            *This is an automated triage response. A human will follow up shortly.*`;
-            } else if (isFeature) {
-              message = `Thanks for the feature suggestion! 💡
-
-            **What happens next:**
-            - Your request will be reviewed within **1 week**
-            - Popular requests get prioritized — if others want this too, they can add a 👍 reaction
-
-            *This is an automated triage response. A human will follow up shortly.*`;
-            } else {
-              message = `Thanks for reaching out! 📬
-
-            Your issue has been received and will be reviewed within **72 hours**.
-
-            *This is an automated triage response. A human will follow up shortly.*`;
-            }
-
-            await github.rest.issues.createComment({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              issue_number: issue.number,
-              body: message
-            });
-
-      - name: Assign to maintainer
-        uses: actions/github-script@v7
+      - name: Run Claude for Issue Triage
+        uses: anthropics/claude-code-action@v1
         with:
-          script: |
-            await github.rest.issues.addAssignees({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              issue_number: context.payload.issue.number,
-              assignees: ['fabianwilliams']
-            });
+          anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
+          allowed_non_write_users: "*"
+          prompt: |
+            You are the issue triage assistant for the WandR community repository.
+            WandR is an AI-powered trip planner iOS app that plans exploration routes
+            from natural language queries.
+
+            ISSUE NUMBER: ${{ github.event.issue.number }}
+            TITLE: ${{ github.event.issue.title }}
+            BODY: ${{ github.event.issue.body }}
+            AUTHOR: ${{ github.event.issue.user.login }}
+            EVENT: ${{ github.event_name }}
+
+            If this is a NEW issue (event = issues), perform full triage:
+
+            1. **Review available labels**: Run `gh label list --json name,description`
+               to see what labels exist.
+
+            2. **Check for duplicates**: Run `gh issue list --state open --limit 30 --json number,title,labels`
+               to find potentially duplicate or related issues.
+
+            3. **Classify and label**: Based on the issue content, apply appropriate labels using
+               `gh issue edit ${{ github.event.issue.number }} --add-label "label1" --add-label "label2"`.
+               Common classifications:
+               - Bug reports: `bug` + one of `backend-bug`, `ios-bug`, or `ai-response`
+               - Feature requests: `enhancement`
+               - Questions: `question`
+               - If it looks like a duplicate, add `duplicate`
+               - If more info is needed, add `needs-info`
+               - Assess severity: `priority-high` or `priority-low` if clear
+
+            4. **Post a triage comment**: Write a brief, friendly comment that:
+               - Acknowledges the issue
+               - Notes if it relates to any known issues
+               - For bugs: mentions expected response time (48 hours)
+               - For features: mentions review timeline (1 week)
+               - For questions: mentions response time (72 hours)
+               - If the issue matches a known bug (Dunkin Donuts in restaurant results,
+                 multi-destination navigation limitation, AI locations may be outdated),
+                 reference the relevant existing issue
+               - Sign off as the automated triage assistant
+
+            5. **Do NOT close issues** — only label and comment.
+            6. **Do NOT assign issues** — the maintainer will assign manually.
+
+            If this is a COMMENT on an existing issue (event = issue_comment), only respond
+            if the comment asks a question or requests help. Keep responses brief and helpful.
+            If the commenter is just providing additional info, do not respond.
+
+            Keep all responses concise, professional, and friendly. You represent the WandR project.
