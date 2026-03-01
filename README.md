@@ -3,6 +3,14 @@
 > **Where will you wandr today?** Tell WandR what you're in the mood for — it plans the perfect exploration route.
 
 <p align="center">
+  <img src="screenshots/app-home-screen.png" width="250" alt="WandR Home Screen" />
+  &nbsp;&nbsp;&nbsp;
+  <img src="screenshots/app-trip-results.png" width="250" alt="WandR Trip Results" />
+  &nbsp;&nbsp;&nbsp;
+  <img src="screenshots/app-map-route.png" width="250" alt="WandR Map Route" />
+</p>
+
+<p align="center">
   <a href="https://apps.apple.com/us/app/wandr-ai-agent-trip-planner/id6759307325">
     <img src="https://img.shields.io/badge/Download_on_the-App_Store-0D96F6?style=for-the-badge&logo=apple&logoColor=white" alt="Download on the App Store" />
   </a>
@@ -28,6 +36,20 @@ WandR is an AI-powered trip planner for explorers without a fixed destination. J
 > *"Romantic dinner spots, 90 minutes, from Bethesda"*
 
 No searching. No scrolling through lists. Just tell WandR what sounds good and go.
+
+---
+
+## See It in Action
+
+<p align="center">
+  <img src="screenshots/app-trip-plan.png" width="280" alt="WandR Trip Plan - 5 stops in Annapolis" />
+  &nbsp;&nbsp;&nbsp;&nbsp;
+  <img src="screenshots/app-map-route.png" width="280" alt="WandR Map - Real road routes with numbered pins" />
+</p>
+
+<p align="center">
+  <em>Left: AI plans a 5-stop scenic tour of Annapolis. Right: Real road routes rendered on native MapKit.</em>
+</p>
 
 ---
 
@@ -222,6 +244,20 @@ WandR is developed by [Adotob LLC](https://adotob.com) — Maryland, United Stat
 | [Privacy Policy](PRIVACY.md) | How we handle your data |
 | [Terms of Service](TERMS.md) | Usage terms |
 | [Contributing](CONTRIBUTING.md) | How to participate |
+
+---
+
+## Launch Milestone
+
+<p align="center">
+  <img src="screenshots/app-store-submission.png" width="600" alt="WandR App Store Submission" />
+</p>
+
+<p align="center">
+  <img src="screenshots/app-store-live.png" width="600" alt="WandR First Subscription - RevenueCat Dashboard" />
+</p>
+
+<p align="center"><em>From submission to first paying subscriber. WandR Pro: 1 active subscription, $6 MRR, 28 new customers in 28 days.</em></p>
 
 ---
 
