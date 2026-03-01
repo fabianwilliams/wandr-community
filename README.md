@@ -247,18 +247,4 @@ WandR is developed by [Adotob LLC](https://adotob.com) — Maryland, United Stat
 
 ---
 
-## Launch Milestone
-
-<p align="center">
-  <img src="screenshots/app-store-submission.png" width="600" alt="WandR App Store Submission" />
-</p>
-
-<p align="center">
-  <img src="screenshots/app-store-live.png" width="600" alt="WandR First Subscription - RevenueCat Dashboard" />
-</p>
-
-<p align="center"><em>From submission to first paying subscriber. WandR Pro: 1 active subscription, $6 MRR, 28 new customers in 28 days.</em></p>
-
----
-
 *Launched March 2026 | Made with AI-augmented development using Claude Code*
