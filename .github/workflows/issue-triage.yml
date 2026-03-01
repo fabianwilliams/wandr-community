@@ -78,8 +78,11 @@ jobs:
             5. **Do NOT close issues** — only label and comment.
             6. **Do NOT assign issues** — the maintainer will assign manually.
 
-            If this is a COMMENT on an existing issue (event = issue_comment), only respond
-            if the comment asks a question or requests help. Keep responses brief and helpful.
-            If the commenter is just providing additional info, do not respond.
+            If this is a COMMENT on an existing issue (event = issue_comment):
+            - If the comment explicitly asks for triage (e.g. "@claude triage", "please triage"),
+              perform full triage as if it were a new issue (check labels, duplicates, classify, comment).
+            - If the comment asks a question or requests help, respond briefly and helpfully.
+            - If the issue has NO labels yet, perform full triage regardless of the comment content.
+            - If the commenter is just providing additional info and the issue already has labels, do not respond.
 
             Keep all responses concise, professional, and friendly. You represent the WandR project.
