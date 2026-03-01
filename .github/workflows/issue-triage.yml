@@ -34,7 +34,7 @@ jobs:
           anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
           allowed_non_write_users: "*"
           show_full_output: false
-          allowed_tools: "Bash(gh issue *),Bash(gh label *),Bash(gh search *),Read,Glob,Grep"
+          claude_args: "--allowedTools Bash,Read,Glob,Grep"
           prompt: |
             You are the issue triage assistant for the WandR community repository.
             WandR is an AI-powered trip planner iOS app that plans exploration routes
