@@ -127,8 +127,24 @@ No. WandR requires an internet connection to communicate with the AI backend and
 </details>
 
 <details>
+<summary><strong>Can I search for a specific place, like "take me to Elder Pine Brewing"?</strong></summary>
+Not yet. WandR is a <strong>discovery tool</strong> — it's designed to find places you didn't know about, not navigate to a specific destination. Think of it as "what kind of adventure do I want?" rather than "take me to X." If you already know where you want to go, Apple Maps or Google Maps is the right tool. Say something like <em>"Find breweries, 2 hours, motorcycle, from Columbia"</em> and WandR will surprise you with great spots nearby.
+</details>
+
+<details>
 <summary><strong>How accurate are the AI suggestions?</strong></summary>
-WandR uses AI to find locations based on its training data. Most suggestions are accurate for well-known, established places. However, AI suggestions may not reflect very recent openings or closures — always verify a location is open before visiting.
+WandR uses a combination of real location data and AI to find stops for your trip. Most suggestions are real, verified places. However, AI suggestions may not reflect very recent openings or closures — always verify a destination is open before making it your primary plan, especially for longer rides.
+</details>
+
+<details>
+<summary><strong>What makes a good WandR query?</strong></summary>
+The best queries describe <strong>what you're in the mood for</strong>, not a specific place. Include an activity, how long you have, and how you're traveling. Great examples:
+<ul>
+<li><em>"Brewery tour, 3 hours, motorcycle, from Columbia"</em></li>
+<li><em>"I want to explore some scenic spots on my motorcycle for about 4 hours starting from home"</em></li>
+<li><em>"Find me good restaurants near DC, 2 hours by car"</em></li>
+</ul>
+You can use natural language — you don't have to follow a strict format.
 </details>
 
 <details>
